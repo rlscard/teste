@@ -13,6 +13,7 @@ public class UC01CadastrarEmpresa {
 	
 	static EmpresaDAO empresaDAO;
 	static Empresa empresa;
+	static Empresa empresa2;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -23,6 +24,7 @@ public class UC01CadastrarEmpresa {
 		empresa.setNomeFantasia("nomeFantasia2");
 		empresa.setEndereco("rua 2");
 		empresa.setTelefone("987654321");
+		empresa2 = new Empresa();
 	}
 
 	@AfterClass
@@ -45,11 +47,10 @@ public class UC01CadastrarEmpresa {
 	}
 	
 	@Test
-	public void CT03UC01A3CadastrarEmpresa_cnpj_invalido() {
-		Empresa empresa = new Empresa();
+	public void CT03UC01A3CadastrarEmpresa_cnpj_invalido() {		
 		try {
-			empresa.setCnpj("879879879856889");
-			fail("deveria disparar uma exception");			
+			empresa2.setCnpj("87987987985894");
+			fail("deveria disparar uma exception");
 		} catch(Exception e){
 			assertEquals("CNPJ Inválido!", e.getMessage());
 		}
@@ -59,7 +60,7 @@ public class UC01CadastrarEmpresa {
 	public void CT04UC01A4CadastrarEmpresa_com_dados_invalidos() {
 		Empresa empresa = new Empresa();
 		try{
-			//empresa.setCnpj("24512799000163");
+			empresa.setCnpj("24512799000163");
 			empresa.setNomeDaEmpresa("");
 			fail("deveria disparar uma exeption");
 		} catch(Exception e) {
