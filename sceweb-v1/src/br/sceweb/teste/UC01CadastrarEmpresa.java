@@ -29,7 +29,8 @@ public class UC01CadastrarEmpresa {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		empresaDAO.exclui("879879879856889");		
+		empresaDAO.exclui("879879879856889");
+		
 	}
 
 	@Test
@@ -40,7 +41,7 @@ public class UC01CadastrarEmpresa {
 		
 	}
 	
-	@Test(expected = RuntimeException.class)
+	@Test(expected = AssertionError.class)
 	public void CT02UC01A2CadastrarEmpresa_cnpj_cadastrado() {
 		assertEquals(0, empresaDAO.adiciona(empresa));
 
