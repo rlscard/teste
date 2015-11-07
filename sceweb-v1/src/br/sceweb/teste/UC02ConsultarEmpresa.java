@@ -25,16 +25,19 @@ public class UC02ConsultarEmpresa {
 		empresa.setTelefone("987654321");
 		empresaDAO.exclui(empresa.getCnpj());
 		empresaDAO.adiciona(empresa);
+		System.out.println("15144 " + EmpresaDAO.listaEmpresa.size() +" "+ empresaDAO.consultaEmpresas().size());
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		empresaDAO.exclui(empresa.getCnpj());
+		
+		
 	}
 
 	@Test
 	public void CT01UC02Consultar_Empresa_Com_Sucesso() {
-		assertTrue(empresa.equals(empresaDAO.consultaEmpresas("87462111000106")));
+		assertTrue(empresa.equals(empresaDAO.consultaEmpresas(empresa.getCnpj())));
 	}
 	
 	@Test
@@ -44,9 +47,7 @@ public class UC02ConsultarEmpresa {
 	
 	@Test
 	public void CT03UC02Consultar_Empresas_Com_Sucesso() {
-		System.out.println(EmpresaDAO.listaEmpresa.size() +" "+ empresaDAO.consultaEmpresas().size());
-		System.out.println(EmpresaDAO.listaEmpresa.get(0).getCnpj());
-		System.out.println(EmpresaDAO.listaEmpresa.get(1).getCnpj());
+
 		assertTrue(EmpresaDAO.listaEmpresa.size() == empresaDAO.consultaEmpresas().size());
 	}
 }

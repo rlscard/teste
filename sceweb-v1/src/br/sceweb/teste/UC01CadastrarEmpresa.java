@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import br.sceweb.modelo.Controle;
 import br.sceweb.modelo.Empresa;
+import br.sceweb.modelo.EmpresaDAO;
 
 
 public class UC01CadastrarEmpresa {
@@ -15,9 +16,11 @@ public class UC01CadastrarEmpresa {
 	static Controle controle;
 	static Empresa empresa;
 	static Empresa empresa2;
+	static EmpresaDAO empresaDAO;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		empresaDAO = new EmpresaDAO();
 		controle = new Controle();
 		empresa = new Empresa();
 		empresa.setCnpj("87462111000106");
@@ -26,18 +29,19 @@ public class UC01CadastrarEmpresa {
 		empresa.setEndereco("rua 2");
 		empresa.setTelefone("987654321");
 		empresa2 = new Empresa();
+		//controle.excluirEmpresa(empresa.getCnpj());
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		
+	public static void tearDownAfterClass() throws Exception {		
+		System.out.println(EmpresaDAO.listaEmpresa.size() +" "+ empresaDAO.consultaEmpresas().size());
 		
 	}
 
 	@Test
 	public void CT01UC01FBCadastrarEmpresa_com_sucesso() {
-		//fail("Not yet implemented");
 		controle.excluirEmpresa(empresa.getCnpj());
+		//fail("Not yet implemented");
 		String msg = controle.cadastrarEmpresa(empresa.getCnpj(), empresa.getNomeDaEmpresa(), empresa.getNomeFantasia(), empresa.getEndereco(), empresa.getTelefone());
 		assertEquals("cadastro realizado com sucesso", msg);
 		
