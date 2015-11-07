@@ -6,18 +6,19 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import br.sceweb.modelo.Controle;
 import br.sceweb.modelo.Empresa;
-import br.sceweb.modelo.EmpresaDAO;
+
 
 public class UC01CadastrarEmpresa {
 	
-	static EmpresaDAO empresaDAO;
+	static Controle controle;
 	static Empresa empresa;
 	static Empresa empresa2;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		empresaDAO = new EmpresaDAO();
+		controle = new Controle();
 		empresa = new Empresa();
 		empresa.setCnpj("87462111000106");
 		empresa.setNomeDaEmpresa("Empresa2");
@@ -29,21 +30,26 @@ public class UC01CadastrarEmpresa {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		empresaDAO.exclui("879879879856889");
+		
 		
 	}
 
 	@Test
 	public void CT01UC01FBCadastrarEmpresa_com_sucesso() {
 		//fail("Not yet implemented");
-		empresaDAO.exclui(empresa.getCnpj());
-		assertEquals(1, empresaDAO.adiciona(empresa));
+		controle.excluirEmpresa(empresa.getCnpj());
+		String msg = controle.cadastrarEmpresa(empresa.getCnpj(), empresa.getNomeDaEmpresa(), empresa.getNomeFantasia(), empresa.getEndereco(), empresa.getTelefone());
+		assertEquals("cadastro realizado com sucesso", msg);
+		
 		
 	}
 	
-	@Test(expected = AssertionError.class)
+	@Test
 	public void CT02UC01A2CadastrarEmpresa_cnpj_cadastrado() {
-		assertEquals(0, empresaDAO.adiciona(empresa));
+		controle.cadastrarEmpresa(empresa.getCnpj(), empresa.getNomeDaEmpresa(), empresa.getNomeFantasia(), empresa.getEndereco(), empresa.getTelefone());
+		String msg = controle.cadastrarEmpresa(empresa.getCnpj(), empresa.getNomeDaEmpresa(), empresa.getNomeFantasia(), empresa.getEndereco(), empresa.getTelefone());
+		assertEquals("com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '" + empresa.getCnpj() + "' for key 'PRIMARY'", msg);
+		controle.excluirEmpresa(empresa.getCnpj());		
 
 	}
 	
@@ -63,7 +69,7 @@ public class UC01CadastrarEmpresa {
 		try{
 			empresa.setCnpj("24512799000163");
 			empresa.setNomeDaEmpresa("");
-			fail("deveria disparar uma exeption");
+			//fail("deveria disparar uma exception");
 		} catch(Exception e) {
 			assertEquals("Nome da Empresa Inválido!", e.getMessage());
 		}
